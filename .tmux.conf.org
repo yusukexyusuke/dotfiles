@@ -1,0 +1,131 @@
+unbind C-b
+set -g prefix C-a
+bind C-a send-prefix
+
+unbind r
+bind r source-file ~/.tmux.conf\; display-message "tmux reloaded"
+
+# setw -g utf8 on
+
+set -g default-terminal screen-256color
+
+set -g base-index 1
+set -g pane-base-index 1
+
+# faster key repetition
+set -s escape-time 0
+
+# scrollback buffer lines
+set -g history-limit 10000
+
+# mouse settings
+set -g mouse on
+bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'copy-mode -e'"
+
+set -g allow-rename off
+
+set -g set-titles on
+set -g set-titles-string '#S'
+
+setw -g automatic-rename off
+
+# statusline
+# set -g status-utf8 on
+set -g status-interval 1
+set -g status-justify centre
+
+set -g status-position top
+
+set-option -g status-left-length 90
+set-option -g status-right-length 90
+
+# status line の背景色を指定する。
+set -g status-bg colour238
+
+# status line の文字色を指定する。
+# set -g status-fg colour240
+
+set -g status-left ' #[fg=colour232,bg=colour238,bold][#20(whoami)@#H]'
+
+setw -g window-status-format "#[fg=colour232,bg=colour238,bold] #I: #W "
+setw -g window-status-current-format "#[fg=colour255,bg=colour161,bold] #I: #W "
+
+# set -g status-right '#[fg=colour235,bold]＜ #[bold]🔋  #(battery -c tmux) #[fg=colour235,bold]＜ #[fg=colour76,bg=colour238,bold]SSID: #(get_ssid) #[fg=colour235,bold]＜ #[fg=colour208,bold]Memory: #(used-mem)%%#[default] #[fg=colour235,bold]＜#[fg=colour198,bold] [%Y-%m-%d(%a) %H:%M] '
+
+# / statusline
+
+set -g message-fg yellow
+set -g message-bg colour235
+
+unbind A
+bind A command-prompt "rename-window %%"
+
+# select page
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# split window
+bind | split-window -h
+bind - split-window -v
+
+# resize panes
+bind -r H resize-pane -L 5
+bind -r J resize-pane -D 5
+bind -r K resize-pane -U 5
+bind -r L resize-pane -R 5
+
+# copy-mode
+unbind Escape
+bind Escape copy-mode
+
+unbind *
+bind * list-clients
+
+bind-key S setw synchronize-panes
+
+# vi mode
+# コピーモードのキーバインドをviライクに設定する
+setw -g mode-keys vi
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+
+# Esc キーでコピーの反転を解除し、コピーモードは抜けない
+bind-key -T copy-mode-vi Escape send-keys -X clear-selection
+
+# Ctrl-c キーでコピーの反転を解除し、コピーモードから抜ける
+bind-key -T copy-mode-vi C-c send-keys -X cancel
+
+# 1行選択
+bind-key -T copy-mode-vi V send-keys -X select-line
+
+# Vi モード中に Ctrl-a で行頭に
+bind-key -T copy-mode-vi C-a send-keys -X start-of-line
+
+# Vi モード中に Ctrl-e で行末に
+bind-key -T copy-mode-vi C-e send-keys -X end-of-line
+
+# 画面上に映る最上行に移動
+bind-key -T copy-mode-vi g send-keys -X top-line
+
+# 画面上に映る最下行に移動
+bind-key -T copy-mode-vi G send-keys -X bottom-line
+
+# 前方検索
+bind-key -T copy-mode-vi / send-keys -X search-forward
+
+# 後方検索
+bind-key -T copy-mode-vi ? send-keys -X search-backward
+
+# ページ送り
+bind-key -T copy-mode-vi C-u send-keys -X scroll-up
+bind-key -T copy-mode-vi C-d send-keys -X scroll-down
+# / vi mode
+
+# reattach-to-user-namespace
+set -g default-command "which reattach-to-user-namespace >/dev/null && reattach-to-user-namespace -l $SHELL"
+
+# bind-key -t vi-copy y copy-pipe "which reattach-to-user-namespace >/dev/null && reattach-to-user-namespace pbcopy"
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+
+set-option -g default-command ""

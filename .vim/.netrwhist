@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/Users/yusuke/Projects/its/src'
+let g:netrw_dirhist_2='/Users/yusuke/Projects/atumerukun'
+let g:netrw_dirhist_3='/Users/yusuke/Projects/muve_create/app/views/member/plans'
+let g:netrw_dirhist_4='/Users/yusuke/Dropbox/tips/ruby/gems'
+let g:netrw_dirhist_5='/Users/yusuke/Dropbox/tips/about_mail'
+let g:netrw_dirhist_6='/Users/yusuke/Projects/dougahisyo/app/models'
+let g:netrw_dirhist_7='/Users/yusuke/Projects/muve_create/app/views/system_admin/plans'
+let g:netrw_dirhist_8='/Users/yusuke/Projects/muve_create'
